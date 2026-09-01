@@ -1,42 +1,38 @@
-<div dir="rtl">
+# Text Emotion Recognition 🎭
 
-# פרויקט למידת מכונה - זיהוי רגשות מתוך טקסט
-פרויקט מסכם בקורס למידת מכונה במכון הטכנולוגי חולון (HIT).
+> **Note:** Final project for the Machine Learning course at Holon Institute of Technology (HIT). 
 
-המטרה של הפרויקט היא לאמן מודל שיודע לקרוא משפט באנגלית ולהבין איזה רגש הוא מביע. הבעיה מוגדרת כסיווג רב-מחלקתי בתחום עיבוד שפה טבעית.
+## 📌 Project Overview
+The goal of this project is to train a machine learning model capable of reading an English sentence and identifying the underlying emotion. This is framed as a **multi-class classification** problem within the domain of Natural Language Processing (NLP).
 
-## הנתונים שלנו
-השתמשנו במסד נתונים מתוך Kaggle שמכיל 16,000 משפטים. 
-כל משפט מתויג לאחד מתוך 6 רגשות: שמחה, עצב, כעס, פחד, אהבה או הפתעה. 
-פיצלנו את הנתונים מראש כך ש-80% ישמשו לאימון המודל ו-20% ישמשו כסט מבחן (טסט) לבדיקת הביצועים.
+## 📊 The Dataset
+The model is trained on a Kaggle dataset containing 16,000 English sentences. 
+Each sentence is labeled with one of 6 emotions: **Joy, Sadness, Anger, Fear, Love, or Surprise**. 
+The data is pre-split into an 80% training set and a 20% test set for performance evaluation.
 
-## אלגוריתם הלמידה
-בחרנו להשתמש באלגוריתם Naive Bayes (בגרסת Multinomial). 
-כתבנו את המחלקה של האלגוריתם בעצמנו לגמרי מאפס - כולל פונקציות האימון והחיזוי - והוספנו מנגנון החלקה (Laplace Smoothing) בעזרת פרמטר אלפא, כדי למנוע מצבים שבהם מילה שלא הופיעה באימון תאפס את כל החישוב.
+## 🧠 The Algorithm (Built From Scratch)
+We implemented a **Multinomial Naive Bayes** classifier completely from scratch. 
+Instead of using pre-built library functions for the algorithm, we wrote the core training and prediction logic ourselves. We also implemented **Laplace Smoothing** (controlled by an alpha parameter) to prevent zero-probability errors when the model encounters words during testing that it did not see during training.
 
-## שלבי העבודה
+## ⚙️ Workflow & Preprocessing
+* **Text Processing:** Text was vectorized using the **Bag of Words (BoW)** approach. 
+* **Noise Reduction:** We filtered out "stop words" (common conjunctions and prepositions) that do not carry emotional weight and contribute no value to the classification process.
+* **Evaluation Metric:** We selected the **Macro-average F1-score**. This metric calculates the success rate for each emotion independently and averages them equally. This was critical for our use case to ensure that rare emotions (like surprise and love) were not overshadowed by more frequent ones.
 
-1. **עיבוד הטקסט והכנת הנתונים:**
-   כדי שהמודל יבין את הטקסט, הפכנו את המילים למספרים בעזרת שיטת "שק מילים" (Bag of Words). בנוסף, סיננו "מילות עצירה" - מילות קישור נפוצות שאין להן באמת משמעות רגשית ולא תורמות לזיהוי.
+## 🚀 Advanced Features & Enhancements
+* **Hyperparameter Tuning (Grid Search):** Instead of manual guessing, we ran an automated Grid Search combined with **5-fold Cross-Validation** to discover the optimal combination of text processing parameters and the model's alpha value.
+* **Handling Class Imbalance:** We identified that certain emotions had very few examples. We resolved this by applying **Oversampling** to the minority classes in the training set until all emotions were perfectly balanced.
+* **Model Explainability:** To demonstrate what the model actually learned, we extracted the **top 8 most indicative words** for each emotion based on the algorithm's internal probability calculations. 
 
-2. **מדד ההצלחה:**
-   השתמשנו במדד macro-average F1. בחרנו בו כי הוא מחשב את ההצלחה על כל רגש בנפרד ואז עושה ממוצע שווה. זה קריטי עבורנו, כי יש רגשות נדירים יחסית (כמו הפתעה ואהבה) ולא רצינו שההצלחה עליהם תיבלע בתוך הרגשות הנפוצים יותר.
+## 💻 How to Run the Project
+The entire pipeline is encapsulated in a single Jupyter Notebook (`.ipynb`).
 
-3. **הרחבות ושיפורים (בונוסים):**
-   * **סריקת פרמטרים אוטומטית (Grid Search):** במקום לנחש מה יעבוד הכי טוב, הרצנו סריקה אוטומטית שמשלבת חלוקה ל-5 קבוצות (Cross Validation) כדי למצוא את השילוב המנצח של שיטת עיבוד הטקסט וערך האלפא של המודל.
-   * **טיפול בחוסר איזון בנתונים:** ראינו שיש רגשות עם מעט מאוד דוגמאות בנתונים. פתרנו את זה על ידי שיכפול דוגמאות של הרגשות ה"חלשים" (Oversampling) עד שכל הרגשות היו בדיוק באותו גודל בסט האימון.
-   * **הסברות המודל:** כדי להראות מה המודל באמת למד, חילצנו מתוכו את 8 המילים שהכי מאפיינות ומזהות כל רגש לפי ההסתברויות הפנימיות שהוא חישב לעצמו.
+1. Download the notebook from this repository.
+2. Open it in **Google Colab** or a local **Jupyter Notebook** environment.
+3. Run the code cells sequentially from top to bottom. *(Note: The code automatically downloads the dataset, so no manual data fetching is required).*
+4. **Interactive Demo:** At the bottom of the notebook, you will find an interactive cell. You are welcome to type any custom English sentence and watch the model predict its emotion in real-time!
 
-## איך להריץ את הפרויקט
-יש כאן קובץ מחברת מרכזי אחד (`.ipynb`) שמכיל את כל הפרויקט מקצה לקצה.
-1. הורידו את המחברת מכאן.
-2. פתחו אותה בסביבת Google Colab או Jupyter Notebook.
-3. הריצו את תאי הקוד לפי הסדר מלמעלה למטה. הקוד יוריד את מסד הנתונים בעצמו אז אין צורך לעשות את זה ידנית.
-4. בסוף המחברת הוספנו תא אינטראקטיבי: אתם מוזמנים להקליד שם משפט חופשי משלכם באנגלית ולראות איזה רגש המודל נותן לו.
-
-## צוות הפרויקט
-* נויה א.
-* עמית א.
-* אמיר מ.
-
-</div>
+## 👥 Project Team
+* Noya A.
+* Amit A.
+* Amir M.
