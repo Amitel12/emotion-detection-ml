@@ -27,7 +27,7 @@ Instead of using pre-built library functions for the algorithm, we wrote the cor
 ## 💻 How to Run the Project
 The entire pipeline is encapsulated in a single Jupyter Notebook (`.ipynb`).
 
-1. Download the notebook from this repository.
+1. Download the notebook [from here](Notebook.ipynb).
 2. Open it in **Google Colab** or a local **Jupyter Notebook** environment.
 3. Run the code cells sequentially from top to bottom. *(Note: The code automatically downloads the dataset, so no manual data fetching is required).*
 4. **Interactive Demo:** At the bottom of the notebook, you will find an interactive cell. You are welcome to type any custom English sentence and watch the model predict its emotion in real-time!
